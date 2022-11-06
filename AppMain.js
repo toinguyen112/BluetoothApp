@@ -23,7 +23,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
-import HomeScreen from './src/screens/HomeScreen';
+import HomeTest from './src/screens/HomeTest';
+// import HomeScreen from './src/screens/HomeScreen';
+
 // import { AuthProvider } from './src/context/AuthContext';
 import Toast from 'react-native-toast-message';
 
@@ -38,7 +40,7 @@ const App = () => {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="SignIn" component={SigninScreen} />
           <Stack.Screen name="SignUp" component={SignupScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Home" component={HomeTest} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

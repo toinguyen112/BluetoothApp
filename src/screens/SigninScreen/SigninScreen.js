@@ -1,5 +1,5 @@
 import { View, Text, Image, Pressable, StyleSheet } from 'react-native'
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import Logo from '../../../assets/images/logo3.jpg'
 import CustomInput from '../../components/CustomInput'
 import CustomButton from '../../components/CustomButton/CustomButton.js'
@@ -10,6 +10,8 @@ import { BASE_URL } from '../../config'
 import { useNavigation } from '@react-navigation/native';
 // import { AuthContext } from '../../context/AuthContext'
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const SigninScreen = () => {
@@ -19,6 +21,16 @@ const SigninScreen = () => {
     const [cccd, setCccd] = useState('');
     const [password, setPassword] = useState('');
     // const [check,setCheck] = useState(false);
+
+
+    const storeData = async (value) => {
+        try {
+            await AsyncStorage.setItem('@patientID', value)
+        } catch (e) {
+            console.log('error: ', e);
+        }
+    }
+
 
 
     const onSignInPressed = () => {
@@ -33,11 +45,14 @@ const SigninScreen = () => {
         }
         else {
             const signin = () => {
+
                 axios.post(`${BASE_URL}/api/patients/signin`, { cccd, password })
                     .then(res => {
-                        const patientInfo = res.data;
-                        console.log(patientInfo);
+                        // const patientInfo = res.data;
+                        // phải navigate trước 
                         navigation.navigate('Home');
+                        // console.log(res.data._id);
+                        storeData(res.data._id);
                     })
                     .catch(e => {
                         console.log('error: ' + e);

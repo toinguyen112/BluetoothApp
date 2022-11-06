@@ -29,6 +29,16 @@ const SignupScreen = () => {
     const [address, setAddress] = useState('');
     const [patientInfo, setPatientInfo] = useState();
     // const { register, test } = useContext(AuthContext);
+
+    const storeData = async (value) => {
+        try {
+            await AsyncStorage.setItem('@patientID', value)
+        } catch (e) {
+            console.log('error: ', e);
+        }
+    }
+
+
     const onSignUpPressed = () => {
         // register(cccd, name, phone, address, password);
         // test();
@@ -50,7 +60,8 @@ const SignupScreen = () => {
                         const patientInfo = res.data;
                         // setPatientInfo(patientInfo);
                         // AsyncStorage.setItem('patientInfo', JSON.stringify(patientInfo));
-                        // console.log(patientInfo);
+                        console.log(patientInfo);
+                        storeData(res.data._id);
                         navigation.navigate('Home');
                     })
                     .catch(e => {
