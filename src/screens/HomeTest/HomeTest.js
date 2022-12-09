@@ -182,7 +182,8 @@ export default class HomeScreen extends Component {
 
     scanAndConnect() {
         this.manager.startDeviceScan(null, null, (error, device) => {
-            if (device.name !== null) {
+
+            if (device !== null) {
                 if (device.name === 'iTAG') {
                     console.log('scanning device: ', device.id, device.name, device.rssi);
                     // if (this.state.listDevices.length === 2) {
@@ -193,7 +194,7 @@ export default class HomeScreen extends Component {
                     // }
                     // this.socket.emit('warning', device.rssi);
 
-                    if (device.rssi < -90) {
+                    if (device.rssi <= -88) {
                         this.manager.stopDeviceScan();
                         this.toggleLoading();
                         this.setState({ listDevices: [] });
@@ -297,7 +298,7 @@ export default class HomeScreen extends Component {
                         <Text style={styles.textTitle}>Theo dõi bệnh nhân</Text>
                     </View>
                     <View style={styles.titleModal}>
-                        <Text style={{ fontSize: 18 }}>thiết bị gần đây</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>thiết bị gần đây</Text>
                         {this.state.isLoading ? (
                             <ActivityIndicator size="small" color="#00ff00" />
                         ) : null}
@@ -313,32 +314,45 @@ export default class HomeScreen extends Component {
                             width: "100%"
                         }}
                     >
-                        <TouchableOpacity
-                            style={[styles.modalButton, { backgroundColor: "#93cd01" }]}
-                            onPress={() => {
-                                this.scanBluetooth();
-                            }}
-                        >
-                            <Text style={[styles.textSmall, { textAlign: "center" }]}>
-                                Scan
-                            </Text>
-                        </TouchableOpacity>
+                        {
+                            this.state.listDevices.length === 2 ?
+                                (
+                                    <View style={styles.trackView}>
+                                        <Text style={styles.trackText}>Đã bật theo dõi</Text>
+                                    </View>
+                                )
+                                : (
+                                    <>
+                                        <TouchableOpacity
+                                            style={[styles.modalButton, { backgroundColor: "#93cd01" }]}
+                                            onPress={() => {
+                                                this.scanBluetooth();
+                                            }}
+                                        >
+                                            <Text style={[styles.textSmall, { textAlign: "center" }]}>
+                                                Quét
+                                            </Text>
+                                        </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={[styles.modalButton, { backgroundColor: '#FF1E1E' }]}
-                            onPress={() => {
-                                // this.manager.disable();
-                                this.manager.stopDeviceScan();
-                                this.toggleLoading();
-                                // this.toggleModal();
-                                this.setState({ listDevices: [] });
+                                        <TouchableOpacity
+                                            style={[styles.modalButton, { backgroundColor: '#FF1E1E' }]}
+                                            onPress={() => {
+                                                // this.manager.disable();
+                                                this.manager.stopDeviceScan();
+                                                this.toggleLoading();
+                                                // this.toggleModal();
+                                                this.setState({ listDevices: [] });
 
-                            }}
-                        >
-                            <Text style={[styles.textSmall, { textAlign: 'center' }]}>
-                                Stop Scan
-                            </Text>
-                        </TouchableOpacity>
+                                            }}
+                                        >
+                                            <Text style={[styles.textSmall, { textAlign: 'center' }]}>
+                                                Dừng quét
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </>
+                                )
+                        }
+
 
                     </View>
                 </View>
@@ -420,5 +434,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    trackView: {
+        backgroundColor: '#93cd01',
+        padding: 30,
+        paddingTop: 5,
+        paddingBottom: 10,
+        borderRadius: 30,
+    },
+    trackText: {
+        fontSize: 20,
+        color: '#000',
+        fontWeight: 'bold'
+
     }
 });

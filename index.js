@@ -9,7 +9,6 @@ import PushNotification from "react-native-push-notification";
 
 
 import { name as appName } from './app.json';
-// registerComponent
 
 PushNotification.configure({
     onNotification: function (notification) {
@@ -19,13 +18,5 @@ PushNotification.configure({
     requestPermissions: Platform.OS === 'ios'
 })
 
-
 AppRegistry.registerComponent(appName, () => App);
 
-// AppRegistry.registerHeadlessTask('SomeTaskName', () =>
-//     someTask()
-// );
-
-// module.exports = async (taskData) => {
-//   // do stuff
-// };
